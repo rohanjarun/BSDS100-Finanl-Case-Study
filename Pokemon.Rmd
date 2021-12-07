@@ -1,0 +1,222 @@
+---
+title: "Final"
+author: "Rohan Jay Arun"
+date: "12/7/2021"
+output: pdf_document
+---
+
+```{r}
+library(ggplot2)
+library(readr)
+library(RColorBrewer)
+pokemon_data <- read_csv('Pokemon.csv')
+```
+
+```{r}
+pokemonTypesBar <- ggplot(pokemon_data, aes(pokemon_data$"Type 1"))
+pokemonTypesBar
+
+```
+
+```{r}
+pokemonTypesBar <- pokemonTypesBar + geom_bar()
+pokemonTypesBar
+```
+```{r}
+pokemonTypesBar <- ggplot(pokemon_data, aes(pokemon_data$"Type 1")) + 
+                geom_bar() + 
+                theme(axis.text.x=element_text(angle=45,hjust=1,vjust=.95)) + 
+                #the angle is specified by "angle" and the position of labels
+                #is specified by "hjust" (horizontal) and "vjust" (vertical)
+                labs(title = "Pokemon Types Bar Chart", 
+                     x = "Pokemon Type", y = "Count")
+pokemonTypesBar
+```
+
+```{r}
+pokemonTypesVerticalBar <- ggplot(pokemon_data, 
+                                  aes(x = "", 
+                                      y = pokemon_data$"Type 1", 
+                                      fill = pokemon_data$"Type 1")) + 
+                            geom_bar(stat="identity")
+
+pokemonTypesVerticalBar
+pokemonTypesPie <- pokemonTypesVerticalBar + 
+                    coord_polar("y", start=0, direction = -1)
+
+pokemonTypesPie
+```
+
+```{r}
+pokemonTypesPie <- pokemonTypesPie + labs(title = "Pokemon Types Pie Chart", 
+                    x = "", y = "", fill = "Pokemon Types") +
+                theme(axis.text.x=element_blank(), 
+                      axis.ticks.y=element_blank(),
+                    panel.grid = element_blank())
+pokemonTypesPie
+```
+
+```{r}
+pokemonTypesPie <- pokemonTypesPie + scale_fill_manual(values=
+                        c("#A6B91A", "#705746", "#6F35FC", "#F7D02C", 
+                          "#D685AD", "#C22E28", "#EE8130", "#A98FF3", 
+                          "#735797", "#7AC74C", "#E2BF65", "#96D9D6", 
+                          "#A8A77A", "#A33EA1", "#F95587", "#B6A136", 
+                          "#B7B7CE", "#6390F0"))
+pokemonTypesPie
+```
+
+```{r}
+pokemonHPHist <- ggplot(pokemon_data, aes(pokemon_data$"HP")) + 
+                geom_histogram(binwidth = 15) + 
+                labs(title = "Histogram of Pokemon HP Values", 
+                     x = "Pokemon HP", y = "Count")
+pokemonHPHist
+```
+
+```{r}
+pokemonHPBoxPlot <- ggplot(pokemon_data, aes(x=pokemon_data$"HP", y="")) + 
+                geom_boxplot() + 
+                labs(title = "Distribution of Pokemon HP Values", 
+                     x = "Pokemon HP", y = "Count")
+pokemonHPBoxPlot
+```
+```{r}
+pokemonDotPlot <- ggplot(pokemon_data, aes(x=pokemon_data$"HP", y="")) + 
+                geom_dotplot(binwidth = 10) + 
+                labs(title = "Distribution of Pokemon HP Values", 
+                     x="Pokemon HP", y = "Count")
+pokemonDotPlot
+```
+
+```{r}
+pokemonScatterPlot <- ggplot(pokemon_data, aes(x=pokemon_data$"HP", 
+                                               y=pokemon_data$"Attack")) + 
+                geom_point() + 
+                labs(title = "Pokemon HP Values vs. Pokemon Attack", 
+                     x="HP", y = "Attack")
+pokemonScatterPlot
+
+```
+
+```{r}
+pokemonScatterPlot <- ggplot(pokemon_data, aes(x=pokemon_data$"HP",
+                                               y=pokemon_data$"Attack")) + 
+                geom_point() + 
+                geom_smooth(method='lm') +
+                labs(title = "Pokemon HP Values vs. Pokemon Attack",
+                     x="HP", y = "Attack")
+pokemonScatterPlot
+```
+
+```{r}
+pokemonHPViolinPlot <- ggplot(pokemon_data, aes(x=pokemon_data$"HP", y="")) + 
+                geom_violin() + 
+                labs(title = "Distribution of Pokemon HP Values", 
+                     x = "Pokemon HP")
+pokemonHPViolinPlot
+```
+
+```{r}
+pokemonHPViolinPlot <- ggplot(pokemon_data, aes(x=pokemon_data$"HP", y="")) + 
+                geom_violin() + 
+                geom_boxplot(width=0.1) +
+                labs(title = "Distribution of Pokemon HP Values", 
+                     x = "Pokemon HP")
+pokemonHPViolinPlot
+```
+
+```{r}
+pokemonHPViolinPlot <- ggplot(pokemon_data, aes(x=pokemon_data$"HP", 
+                                                pokemon_data$"Legendary")) + 
+                geom_violin() + 
+                geom_boxplot(width=0.1) +
+                labs(title = "Distribution of Pokemon HP Values", 
+                     x = "Pokemon HP", y="Is Legendary")
+pokemonHPViolinPlot
+```
+
+```{r}
+pokemonTypesBar <- ggplot(pokemon_data, aes(fill=pokemon_data$"Legendary",
+                                            x=pokemon_data$"Type 1")) + 
+                geom_bar(position = position_dodge(preserve = 'single')) + 
+                theme(axis.text.x=element_text(angle=45,hjust=1,vjust=.95)) + 
+
+                #the angle is specified by "angle," and the position of the
+                #labels is specified by "hjust" (horizontal) & "vjust" (vertical)
+
+                labs(title = "Pokemon Types Bar Chart", x = "Pokemon Type",
+                     y = "Count", fill = "Is Legendary?")
+pokemonTypesBar
+```
+
+```{r}
+pokemonTypesBar <- ggplot(pokemon_data, aes(fill=pokemon_data$"Legendary", 
+                                            x=pokemon_data$"Type 1")) + 
+                geom_bar(position = 'stack') + 
+                theme(axis.text.x=element_text(angle=45,hjust=1,vjust=.95)) + 
+
+                #the angle is specified by "angle," and the position of the
+                #labels is specified by "hjust" (horizontal) & "vjust" (vertical)
+
+                labs(title = "Pokemon Types Bar Chart", x = "Pokemon Type",
+                     y = "Count", fill = "Is Legendary?")
+pokemonTypesBar
+
+```
+
+```{r}
+pokemonTypesBar <- ggplot(pokemon_data, aes(fill=pokemon_data$"Legendary", 
+                                            x=pokemon_data$"Type 1")) + 
+                geom_bar(position = 'fill') + 
+                theme(axis.text.x=element_text(angle=45,hjust=1,vjust=.95)) + 
+                    
+                #the angle is specified by "angle," and the position of the
+                #labels is specified by "hjust" (horizontal) & "vjust" (vertical)
+
+                labs(title = "Pokemon Types Bar Chart", x = "Pokemon Type", 
+                     y = "Count", fill = "Is Legendary?")
+pokemonTypesBar
+```
+
+```{r}
+pokemonScatterPlot <- ggplot(pokemon_data, aes(x=pokemon_data$"Attack",
+                                               y=pokemon_data$"Defense",
+                                               size=pokemon_data$"HP")) + 
+                geom_point(alpha=0.3) + 
+
+                labs(title = "Pokemon HP Values vs. Pokemon Attack", x="Attack",
+                     y = "Defense")
+pokemonScatterPlot
+```
+
+```{r}
+pokemonScatterPlot <- ggplot(pokemon_data, aes(x=pokemon_data$"Attack",
+                                               y=pokemon_data$"Defense",
+                                               size=pokemon_data$"HP",
+                                               color=pokemon_data$"Legendary")) + 
+                    geom_point(alpha=0.3) + 
+                    labs(title = "Pokemon HP Values vs. Pokemon Attack",
+                         x="Attack", y = "Defense", color = "Is Legendary?",
+                         size = 'HP')
+pokemonScatterPlot
+```
+```{r}
+pokemon_data$"Generation" <- as.character(pokemon_data$"Generation") 
+
+
+pokemonGenVerticalBar <- ggplot(pokemon_data, aes(x = "", 
+                                                  y = pokemon_data$"Generation",
+                                                  fill = pokemon_data$"Generation")) + 
+                        geom_bar(stat="identity")
+
+pokemonGenPie <- pokemonGenVerticalBar + coord_polar("y", start=0, direction = -1) +
+                labs(title = "Pokemon Generation Pie Chart", x = "", y = "", 
+                     fill = "Pokemon Generation") + 
+                theme(axis.text.x=element_blank(), 
+                      axis.ticks.y=element_blank(),
+                      panel.grid = element_blank())
+pokemonGenPie
+```
+
+

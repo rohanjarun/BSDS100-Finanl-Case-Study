@@ -1,0 +1,57 @@
+---
+title: "Final Case Study"
+author: "Rohan Arun"
+date: "Dec 2nd, 2021"
+output:
+  pdf_document: default
+  html_document: default
+  word_document: default
+---
+
+
+<center> <h1>
+
+BSDS 100-Final Project 2</h1> </center>
+
+For this project I have decided to use the dataset Pokemon to understand trends, graphs and patterns
+pokemon_data$Type.2[pokemon_data$Type.2 == ""] <- "None"
+pokemon_data <- mutate(pokemon_data, Type = str_c(Type.1, Type.2, sep = " "))
+pokemon_data 
+
+```{r}
+library(tidyverse)
+library(dslabs)
+pokemon_data<-read.csv("Pokemon.csv")
+head(pokemon_data)
+pokemon_data
+```
+```{r}
+pokemonTypesBar <- ggplot(pokemon_data, aes(pokemon_data$"Type 1"))
+pokemonTypesBar
+```
+```{r}
+pokemonTypesVerticalBar <- ggplot(pokemon_data, 
+                                  aes(x = "", 
+                                      y = pokemon_data$"Type 1", 
+                                      fill = pokemon_data$"Type 1")) + 
+                            geom_bar(stat="identity")
+                #the 'stat = "identity"' part of this code tells 
+                #ggplot to use the y-values we put in
+pokemonTypesVerticalBar
+pokemonTypesPie <- pokemonTypesVerticalBar + 
+                    coord_polar("y", start=0, direction = -1)
+                #'start' determines where the graph begins, and 'direction' 
+                # dictates whether or not the plot should be clockwise or not: 
+                # -1 -> clockwise, 1 - counter-clockwise.
+pokemonTypesPie
+```
+```{r}
+pokemonTypesPie <- pokemonTypesPie + labs(title = "Pokemon Types Pie Chart", 
+                    x = "", y = "", fill = "Pokemon Types") +
+                theme(axis.text.x=element_blank(), 
+                      axis.ticks.y=element_blank(),
+                    panel.grid = element_blank())
+pokemonTypesPie
+```
+
+
